@@ -1,0 +1,15 @@
+{
+  "name": "consumer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "consumer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ravi",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^5.0.3",
+    "web3": "^1.2.9"
+  }
+}
