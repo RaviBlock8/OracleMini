@@ -1,13 +1,11 @@
-const Web3 = require("web3");
+// const Web3 = require("web3");
 const { ethers } = require("ethers");
 const OracleAbi = require("./OracleSc.json");
 
 const loadWeb3 = async () => {
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider("HTTP://127.0.0.1:8545")
+  const providers = new ethers.providers.JsonRpcProvider(
+    "HTTP://127.0.0.1:8545"
   );
-  //   console.log(web3);
-  const providers = new ethers.providers.Web3Provider(web3.eth.currentProvider);
   const oracleContract = new ethers.Contract(
     "0x3eb22260218526C702a9727Dc72117921cb14975",
     JSON.stringify(OracleAbi.abi),
@@ -26,8 +24,11 @@ const startServer = async () => {
     console.log("writing data........");
     oracleContract
       .updateWeather("34.5")
-      .then((tx) => {
-        console.log("update weather called:", tx);
+      .then(async (tx) => {
+        let reciept = await tx.wait(2);
+        let latestEvent = reciept.events.pop();
+        console.log(latestEvent.args[0]);
+        console.log("update weather called");
       })
       .catch((err) => {
         console.log("updating weather failed");
